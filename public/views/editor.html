@@ -1,0 +1,40 @@
+<div class="jumbotron text-center">
+	
+    <h1>Editor</h1>
+
+<!--    note that MAYBE I will have to put the 'label' tags around the entire line, like in the angularjs documentation-->
+    <label>Story Number: </label><input type="number" ng-model="newScene.storynumber"><br>
+    <label>Scene Number: </label><input type="number" ng-model="newScene.scenenumber"><br>
+<!--
+    <label>Title: </label><input type="text" ng-model="newScene.title"><br>
+    <label>Question: </label><br><textarea rows="4" cols="50" ng-model="newScene.question"></textarea><br>
+    <label>Answer 1 (correct): </label><br><textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer1.words"></textarea><br><input type="text" placeholder="Next question" ng-model="newScene.answer1.next"><input type="text" placeholder="Points" ng-model="newScene.answer1.points"><br>
+    <label>Answer 2 (incorrect): </label><br><textarea rows="4" cols="50" placeholder="Answer Text" ng-model="newScene.answer2.words"></textarea><br><input type="text" placeholder="Next Question" ng-model="newScene.answer2.next"><input type="text" placeholder="Points" ng-model="newScene.answer2.points"><br>
+    <label>Time: </label><input type="text" ng-model="newScene.authority"><br>
+    <label>Time: </label><input type="text" ng-model="newScene.time"><br>
+    <label><input type="radio" ng-model="color.type" value="red">Image</label><br/>
+    <label><input type="radio" ng-model="color.type" value="blue">Video</label><br/>
+    <label>Resource: </label><input type="text" ng-model="newScene.resource"><br>
+    <code>text = {{newScene.resource}}</code>
+-->
+    <button ng-show="!editing" ng-click="saveScene()">Save Scene</button>
+    <button ng-show="editing" ng-click="updateScene()">Update Scene</button>
+<!--    <button ng-click="getAllScenes()">Get Scenes</button>-->
+    
+    <div ng-show="!editing" id="scene-list" class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+
+                <!-- LOOP OVER THE TODOS IN $scope.todos -->
+                <div class="checkbox" ng-repeat="s in scenes">
+                    <label>Story Number:{{ s.storynumber }} </label>
+                    <label>Scene Number:{{ s.scenenumber }} </label>
+                    <label>
+                    <button ng-click="deleteScene(s._id)">Delete</button>
+                    <button ng-click="editScene(s._id)">Edit</button>  
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+</div>

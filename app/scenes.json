@@ -1,0 +1,70 @@
+[
+    {
+        "id":11,
+        "story": 1,
+        "number": 1,
+        "title": "Title 1",
+        "question": "This is the first question, so is this the first question?",
+        "answers": [
+            {"response": "a", "text": "Yes", "next": 2},
+            {"response": "b", "text": "No", "next": 2}
+        ],
+        "correct": "a",
+        "authority": "Famous case 1",
+        "type": "video",
+        "resource": "x4JKxst4N7U",
+        "thumbnail": "img/car.jpg",
+        "time": 60
+    },
+    {   
+        "id":12,
+        "story": 1,
+        "number": 2,
+        "title": "Title 2",
+        "question": "This is the second question, so is this the second question?",
+        "answers": [
+            {"response": "a", "text": "No", "next": 1},
+            {"response": "b", "text": "Yes", "next": 1}
+        ],
+        "correct": "b",
+        "authority": "Famous case 2",
+        "type": "image",
+        "resource": "d1TZeVfXc5s",
+        "thumbnail": "img/music.jpg",
+        "time": 45
+    },
+    {
+        "id":21,
+        "story": 2,
+        "number": 1,
+        "title": "Title 3",
+        "question": "This is the first question, so is this the first question?",
+        "answers": [
+            {"response": "a", "text": "Yes", "next": 2},
+            {"response": "b", "text": "No", "next": 2}
+        ],
+        "correct": "a",
+        "authority": "Famous case 1",
+        "type": "video",
+        "resource": "pOSgI8GHF7o",
+        "thumbnail": "img/google.jpg",
+        "time": 60
+    },
+    {
+        "id":22,
+        "story": 2,
+        "number": 2,
+        "title": "Title 4yy",
+        "question": "This is the second question, so is this the second question?",
+        "answers": [
+            {"response": "a", "text": "No", "next": 1},
+            {"response": "b", "text": "Yes", "next": 1}
+        ],
+        "correct": "b",
+        "authority": "Famous case 2",
+        "type": "image",
+        "resource": "t4hoY8ZR8xA",
+        "thumbnail": "img/photographer.jpg",
+        "time": 45
+    }
+]
