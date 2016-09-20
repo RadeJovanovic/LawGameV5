@@ -24,7 +24,7 @@ var Schema = mongoose.Schema;
 var sceneSchema = new Schema({
 //  id: {type: Number, unique: true},
   storynumber: Number,
-  scenenumber: Number
+  scenenumber: Number,
 //  title: String,
 //  question: String,
 //  answer1: {
@@ -39,7 +39,7 @@ var sceneSchema = new Schema({
 //  },
 //  authority: String,
 //  video: Boolean,
-//  resource: String,
+  resource: String
 //  thumbnail: String,
 //  time: Number
 });

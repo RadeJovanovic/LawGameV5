@@ -1,10 +1,12 @@
 <div class="jumbotron text-center">
 	
     <h1>Editor</h1>
+    x4JKxst4N7U<br>
 
 <!--    note that MAYBE I will have to put the 'label' tags around the entire line, like in the angularjs documentation-->
     <label>Story Number: </label><input type="number" ng-model="newScene.storynumber"><br>
     <label>Scene Number: </label><input type="number" ng-model="newScene.scenenumber"><br>
+    <label>Resource: </label><input type="text" ng-model="newScene.resource"><br>
 <!--
     <label>Title: </label><input type="text" ng-model="newScene.title"><br>
     <label>Question: </label><br><textarea rows="4" cols="50" ng-model="newScene.question"></textarea><br>
@@ -22,12 +24,13 @@
 <!--    <button ng-click="getAllScenes()">Get Scenes</button>-->
     
     <div ng-show="!editing" id="scene-list" class="row">
-            <div class="col-sm-4 col-sm-offset-4">
+            <div class="col-sm-6 col-sm-offset-4">
 
                 <!-- LOOP OVER THE TODOS IN $scope.todos -->
                 <div class="checkbox" ng-repeat="s in scenes">
                     <label>Story Number:{{ s.storynumber }} </label>
                     <label>Scene Number:{{ s.scenenumber }} </label>
+                    <label>Resource:{{ s.resource }} </label>
                     <label>
                     <button ng-click="deleteScene(s._id)">Delete</button>
                     <button ng-click="editScene(s._id)">Edit</button>  

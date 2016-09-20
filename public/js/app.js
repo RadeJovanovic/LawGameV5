@@ -44,15 +44,13 @@ angular.module('lawGame', ['ui.router'])
                             .success(function(data){
                                 sceneData = data;
                                 console.log('This is the data coming from the game resolve')
-                                console.log(sceneData) //this logs properly to the console
+                                console.log(sceneData)
                                 return sceneData;
                             })
                             .error(function(data){
                                 console.log('Error: '+ data)
                                 return null;
                             })
-//                        
-//                        123;
                     }]
                 }
             })
@@ -148,26 +146,17 @@ angular.module('lawGame', ['ui.router'])
     console.log("The selector controller is returning:" + resolvedScenes);
 }])
 
-.controller('gameController', ['$scope', 'sceneinfo', '$stateParams',
-                    function(   $scope,   sceneinfo,   $stateParams) {
+.controller('gameController', ['$scope', 'sceneinfo', '$stateParams', '$sce',
+                    function(   $scope,   sceneinfo,   $stateParams,   $sce) {
 // USE DEPENDENCY INJECTION TO INJECT THE SCENEINFO
     $scope.isQuestion = true;
-    var returnedSceneInfo = sceneinfo;
+    var returnedSceneInfo = sceneinfo.data;
     console.log(returnedSceneInfo)
-//    $scope.sceneinfo = sceneinfo;
-//    console.log(sceneinfo)
+    var resourceUrl = returnedSceneInfo.resource;
+    $scope.fullUrl = 'https://youtube.com/embed/'+resourceUrl+'?autoplay=1&controls=0&showinfo=0&autohide=1';
+    $scope.escapedUrl = $sce.trustAsResourceUrl($scope.fullUrl);
     
-//    function resolveScene(story, scene){
-//        sceneService.resolveOne(story, scene)
-//            .success(function(data){
-//                $scope.sceneData = data;
-//                console.log('This is the scene data coming from the controller')
-//                console.log(sceneData) //this logs properly to the console
-//            })
-//            .error(function(data){
-//                console.log('Error: '+ data)
-//            })
-//    }
+    $scope.resource = returnedSceneInfo.resource;
     }])
 
 .controller('editorController', ['$scope', 'sceneService',
