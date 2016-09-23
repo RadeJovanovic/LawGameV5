@@ -39,8 +39,8 @@ var sceneSchema = new Schema({
 //  },
 //  authority: String,
 //  video: Boolean,
-  resource: String
-//  thumbnail: String,
+  resource: String,
+  thumbnail: String
 //  time: Number
 });
 

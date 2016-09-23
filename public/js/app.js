@@ -42,10 +42,9 @@ angular.module('lawGame', ['ui.router'])
                                 
                         return sceneService.resolveOne(story, scene)
                             .success(function(data){
-                                sceneData = data;
-                                console.log('This is the data coming from the game resolve')
-                                console.log(sceneData)
-                                return sceneData;
+                                console.log('This is the data coming from the game resolve:')
+                                console.log(data)
+                                return data;
                             })
                             .error(function(data){
                                 console.log('Error: '+ data)
@@ -70,12 +69,15 @@ angular.module('lawGame', ['ui.router'])
 
 /////////////////SERVICES///////////////////////////
 
-.factory('loginService', ['$http', function($http) {
-    //login service code to go here
+.service('loginService', ['$http', '$state', function($http, $state) {
+   console.log('I have entered the service')
+   this.goToSelector = function(){
+          $state.go('selector')
+   }
 }])
 
 .service('sceneService', ['$http', function($http) {
-    
+    console.log('By injecting, I have entered')
     var baseUrl = 'http://localhost:8080'
     
     this.saveNew = function(newScene) {
@@ -109,54 +111,51 @@ angular.module('lawGame', ['ui.router'])
         return $http.get(url);
     }
 }])
-
-
-//This bit does not work properly
-.factory('allSceneService', ['$http', 'utilityService', function($http) {
-        console.log('The scene http service is working');
-        var path = 'https://api.myjson.com/bins/1jzpr';
-        var scenes = $http.get(path)
-            .then(function (resp) {
-              console.log(scenes); //this returns a promise, cf. in the selectorController
-              return resp.data;
-            });
-               
-        var factory = {};
-        factory.all = function () {
-            return scenes;
-        };
-    return factory;
-}])
     
 //////////////////CONTROLLERS//////////////////////
 
-.controller('loginController', function($scope) {
+.controller('loginController', ['loginService', '$scope', '$state', 
+                        function(loginService,   $scope,   $state) {
 
 	$scope.tagline = 'This is the login page';
     $scope.login = function(){
         console.log('Yay you logged in!!')
+        loginService.goToSelector()
     };
-})
+}])
 //
-.controller('selectorController', ['$scope', 'resolvedScenes',
-                        function(   $scope,   resolvedScenes) {
+.controller('selectorController', ['$scope', 'sceneService', '$state',
+                        function(   $scope,   sceneService,   $state) {
     console.log('selectorController running')
-	$scope.tagline = 'This is the selector page and this sentence is coming from the controller';	
-    $scope.resolvedScenes = resolvedScenes;
-    console.log("The selector controller is returning:" + resolvedScenes);
+    
+    getAllScenes();
+     
+    $scope.play = function(s){
+        var story = s.storynumber;
+        $state.go('game', {storynumber: story, scenenumber: 1});
+    }            
+    
+    function getAllScenes() {
+        sceneService.getAll()
+            .success(function(data){
+                $scope.scenes = data;
+                console.log($scope.scenes);
+            })
+            .error(function(data){
+                console.log('Error: '+ data);
+            });
+    }
 }])
 
 .controller('gameController', ['$scope', 'sceneinfo', '$stateParams', '$sce',
                     function(   $scope,   sceneinfo,   $stateParams,   $sce) {
-// USE DEPENDENCY INJECTION TO INJECT THE SCENEINFO
+
     $scope.isQuestion = true;
     var returnedSceneInfo = sceneinfo.data;
     console.log(returnedSceneInfo)
     var resourceUrl = returnedSceneInfo.resource;
     $scope.fullUrl = 'https://youtube.com/embed/'+resourceUrl+'?autoplay=1&controls=0&showinfo=0&autohide=1';
     $scope.escapedUrl = $sce.trustAsResourceUrl($scope.fullUrl);
-    
-    $scope.resource = returnedSceneInfo.resource;
     }])
 
 .controller('editorController', ['$scope', 'sceneService',
@@ -260,17 +259,6 @@ angular.module('lawGame', ['ui.router'])
 
 /////////////////DIRECTIVES//////////////////////
 
-.directive('playStory', function() {
-  return {
-    restrict: 'E',
-    scope: {},
-    templateUrl: 'directives/playStory.html',
-    link: function(scope, element, attrs) {
-      scope.buttonText = "Play"
-    },
-  };
-})
-
 .directive('storyInfo', function() {
     return {
         restrict: 'E',
@@ -278,6 +266,6 @@ angular.module('lawGame', ['ui.router'])
             sceneInfo: '=info'
         },
 //        templateUrl: 'js/directives/story-info.hmtl'
-        template: '<p> This is storyInfo</p><img class="icon" ng-src="{{sceneInfo.thumbnail}}"><h2 class="title">Title:{{sceneInfo.title}}</h2>'
+        template: '<p> This is storyInfo</p><img class="icon" ng-src="{{sceneInfo.thumbnail}}"><h2 class="title">Story:{{sceneInfo.storynumber}}</h2>'
     };
 });
