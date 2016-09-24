@@ -1,4 +1,4 @@
-angular.module('lawGame', ['ui.router'])
+angular.module('lawGame', ['ui.router', ])
 
 .run(
   [          '$rootScope', '$state', '$stateParams',
@@ -10,9 +10,10 @@ angular.module('lawGame', ['ui.router'])
 )
 
 .config(
-  [          '$stateProvider', '$urlRouterProvider',
-    function ($stateProvider,   $urlRouterProvider) {
-      $urlRouterProvider.otherwise('/login');
+  [          '$stateProvider', '$urlRouterProvider', '$locationProvider',
+    function ($stateProvider,   $urlRouterProvider, $locationProvider) {
+//        $locationProvider.html5Mode(true);
+        $urlRouterProvider.otherwise('/login');
         
         $stateProvider
         
@@ -52,6 +53,12 @@ angular.module('lawGame', ['ui.router'])
                             })
                     }]
                 }
+            })
+        
+            .state('death', {
+                url:'/death',
+                templateUrl:'views/death.html',
+                controller:''
             })
         
             .state('editor', {
@@ -150,12 +157,16 @@ angular.module('lawGame', ['ui.router'])
 .controller('gameController', ['$scope', 'sceneinfo', '$stateParams', '$sce',
                     function(   $scope,   sceneinfo,   $stateParams,   $sce) {
 
-    $scope.isQuestion = true;
-    var returnedSceneInfo = sceneinfo.data;
-    console.log(returnedSceneInfo)
-    var resourceUrl = returnedSceneInfo.resource;
+//  View setup
+    $scope.sceneInfo = sceneinfo.data;
+    console.log($scope.sceneInfo)
+    var resourceUrl = $scope.sceneInfo.resource;
     $scope.fullUrl = 'https://youtube.com/embed/'+resourceUrl+'?autoplay=1&controls=0&showinfo=0&autohide=1';
     $scope.escapedUrl = $sce.trustAsResourceUrl($scope.fullUrl);
+    
+    
+//  Gameplay
+    $scope.isQuestion = true;
     }])
 
 .controller('editorController', ['$scope', 'sceneService',
@@ -169,6 +180,10 @@ angular.module('lawGame', ['ui.router'])
     getAllScenes(); //Do this on page landing
                             
     $scope.saveScene = function(){
+        //Rules: each story must have a number 1 scene
+        
+        //check if scene is ok to save
+        //check if the story has a new 
         saveScene();
         getAllScenes();
         //when saving scene, need to check whether linking scene has been made, and if not, create an empty linking scene. 
