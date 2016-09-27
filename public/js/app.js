@@ -1,4 +1,4 @@
-angular.module('lawGame', ['ui.router', ])
+angular.module('lawGame', ['ui.router', 'youtube-embed'])
 
 .run(
   [          '$rootScope', '$state', '$stateParams',
@@ -39,7 +39,6 @@ angular.module('lawGame', ['ui.router', ])
                         var story = $stateParams.storynumber;
                         var scene = $stateParams.scenenumber;
                         console.log(story,scene)
-//                        return sceneService.resolveOne(story, scene)
                                 
                         return sceneService.resolveOne(story, scene)
                             .success(function(data){
@@ -158,12 +157,18 @@ angular.module('lawGame', ['ui.router', ])
                     function(   $scope,   sceneinfo,   $stateParams,   $sce) {
 
 //  View setup
-    $scope.sceneInfo = sceneinfo.data;
-    console.log($scope.sceneInfo)
-    var resourceUrl = $scope.sceneInfo.resource;
-    $scope.fullUrl = 'https://youtube.com/embed/'+resourceUrl+'?autoplay=1&controls=0&showinfo=0&autohide=1';
-    $scope.escapedUrl = $sce.trustAsResourceUrl($scope.fullUrl);
-    
+    var sceneInfo = sceneinfo.data;
+    $scope.videoID = sceneInfo.resource; // videoID gets passed to the directive
+                        
+//  Video playback
+    $scope.playerVars = {
+    controls: 0,
+    autoplay: 1
+    };
+    $scope.$on('youtube.player.ended', function ($event, player) {
+    // play it again
+    $state.go('game', {storynumber: 1, scenenumber: 2})
+    });                    
     
 //  Gameplay
     $scope.isQuestion = true;
